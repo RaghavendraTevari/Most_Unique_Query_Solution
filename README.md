@@ -111,4 +111,39 @@ Output:
 | 2 |
 | 4 |
 
+## Q5.Write a query to return the IDs of the Facebook pages that have zero likes
 
+Facebook Pages with Zero Likes
+Problem: Find the IDs of Facebook pages that have zero likes, sorted in ascending order.  
+Input: pages Table
+| page_id | page_name |
+| :--- | :--- |
+| 20001 | SQL Solutions |
+| 20045 | Brain Exercises |
+| 20701 | Tips for Data Analysts |
+| 31111 | Postgres Crash Course |
+| 32728 | Break the thread |
+
+Input: page_likes Table
+| user_id | page_id | liked_date |
+| :--- | :--- | :--- |
+| 111 | 20001 | 2022-04-08 00:00:00 |
+| 121 | 20045 | 2022-03-12 00:00:00 |
+| 156 | 20001 | 2022-07-25 00:00:00 |
+| 255 | 20045 | 2022-07-19 00:00:00 |
+| 125 | 20001 | 2022-07-19 00:00:00 |
+| 144 | 31111 | 2022-06-21 00:00:00 |
+| 125 | 31111 | 2022-07-04 00:00:00 |
+
+```sql
+SELECT p.page_id
+FROM pages p
+LEFT JOIN page_likes pl 
+  ON p.page_id = pl.page_id
+WHERE pl.page_id IS NULL
+ORDER BY p.page_id ASC;
+```
+Output:
+| page_id |
+| :--- |
+| 20701 |
