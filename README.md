@@ -82,6 +82,33 @@ Output:
 | 1 | 2 |
 | 2 | 1 |
 
+## Q4. Write a solution to find all dates' id with higher temperatures compared to its previous dates (yesterday).
+Weather Table:
+| id | recordDate | temperature |
+| :--- | :--- | :--- |
+| 1 | 2015-01-01 | 10 |
+| 2 | 2015-01-02 | 25 |
+| 3 | 2015-01-03 | 20 |
+| 4 | 2015-01-04 | 30 |
 
+```sql
+SELECT id
+FROM (
+    SELECT 
+        id, 
+        temperature,
+        LAG(temperature) OVER (ORDER BY recordDate) AS prev_temp,
+        recordDate,
+        LAG(recordDate) OVER (ORDER BY recordDate) AS prev_date
+    FROM Weather
+) AS temp_diff
+WHERE temperature > prev_temp 
+  AND recordDate = prev_date + INTERVAL '1 day';
+```
+Output:
+| id |
+| :--- |
+| 2 |
+| 4 |
 
 
